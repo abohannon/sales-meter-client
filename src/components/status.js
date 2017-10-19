@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Radium from 'radium';
-import PropTypes from 'prop-types';
 
 const createStatusStyles = () => ({
   container: {
@@ -34,8 +33,8 @@ const Status = (props) => {
         : <div style={container}>
           <div style={statusItem}>
             {sales < goal
-              ? <div><strong>{goal - sales} more needed</strong> to make</div>
-              : <div>We reached our goal! This sale is on!</div>
+              ? <div><strong>{goal - sales} more needed</strong> to create this product</div>
+              : <div>Goal reached! This product will be created.</div>
             }
           </div>
           <div style={statusItem}>

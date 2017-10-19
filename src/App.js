@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import Radium from 'radium';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LinearProgress from 'material-ui/LinearProgress';
-import './App.css';
 
 import Status from './components/status';
 import Timer from './components/timer';
@@ -10,6 +10,9 @@ const createAppStyles = () => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
+    fontFamily: 'inherit',
+    borderBottom: '1px solid #e5e5e5',
+    paddingBottom: 20,
   },
 });
 
@@ -22,24 +25,36 @@ class App extends Component {
       sales: 0,
       start: '',
       end: '',
+      productID: '',
+      status: false,
     };
   }
 
   componentDidMount() {
-    console.log('App mounting...');
-    const API_URL = 'http://805bd17c.ngrok.io/api/campaigns/1';
-    const API_KEY = '';
+    const rootEl = document.querySelector('#sales-meter');
+    const productID = rootEl.getAttribute('product-id');
+    const API_URL = `http://32fbac73.ngrok.io/api/meter/${productID}`;
+    // const API_URL = 'http://32fbac73.ngrok.io/api/meter/10972565258';
     fetch(API_URL, {
       headers: { Accept: 'application/json' },
     })
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status === 404) {
+          this.setState({
+            status: false,
+          });
+        } else {
+          return response.json();
+        }
+      })
       .then((data) => {
-        console.log(data);
         this.setState({
-          goal: data.sales_goal,
-          sales: data.sold === undefined ? 0 : data.sold,
+          goal: data.goal,
+          sales: data.sales === undefined ? 0 : data.sales,
           start: data.start_at,
           end: data.end_at,
+          productID,
+          status: true,
         });
       })
       .catch((error) => {
@@ -49,10 +64,10 @@ class App extends Component {
   }
 
   render() {
-    const {
-      container,
-    } = createAppStyles();
-
+    if (!this.state.status) {
+      return null;
+    }
+    const { container } = createAppStyles();
     return (
       <MuiThemeProvider>
         <div className="App" style={container}>
@@ -70,4 +85,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
