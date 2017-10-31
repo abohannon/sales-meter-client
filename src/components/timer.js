@@ -18,10 +18,10 @@ const Timer = (props) => {
     end,
   } = props;
 
-  const length = moment(end).local().diff(moment(start).local());
-  const d = moment.duration(length).days();
-  const h = moment.duration(length).hours();
-  const m = moment.duration(length).minutes();
+  const timeFromNow = moment().local().diff(moment(end));
+  const d = moment.duration(timeFromNow).days();
+  const h = moment.duration(timeFromNow).hours();
+  const m = moment.duration(timeFromNow).minutes();
   const dayText = d === 1 ? 'day' : 'days';
   const hourText = h === 1 ? 'hour' : 'hours';
   const minuteText = m === 1 ? 'minute' : 'minutes';

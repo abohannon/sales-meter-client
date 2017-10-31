@@ -33,8 +33,7 @@ class App extends Component {
   componentDidMount() {
     const rootEl = document.querySelector('#sales-meter');
     const productID = rootEl.getAttribute('product-id');
-    const API_URL = `http://32fbac73.ngrok.io/api/meter/${productID}`;
-    // const API_URL = 'http://32fbac73.ngrok.io/api/meter/10972565258';
+    const API_URL = `https://merchconnection.co/api/meter/${productID}`;
     fetch(API_URL, {
       headers: { Accept: 'application/json' },
     })
